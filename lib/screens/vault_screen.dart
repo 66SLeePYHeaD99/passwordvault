@@ -223,6 +223,30 @@ class _VaultScreenState extends State<VaultScreen> with SingleTickerProviderStat
     ).then((value) => value ?? false); // Return false if dialog is dismissed
   }
 
+  Future<void> _showLogoutDialog() async {
+    bool? shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Logout'),
+        content: Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Logout'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldLogout == true) {
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -232,6 +256,42 @@ class _VaultScreenState extends State<VaultScreen> with SingleTickerProviderStat
       child: Scaffold(
         appBar: AppBar(
           title: Text("Password Vault"),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                switch (value) {
+                  case 'settings':
+                    Navigator.of(context).pushNamed('/settings');
+                    break;
+                  case 'logout':
+                    _showLogoutDialog();
+                    break;
+                }
+              },
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem<String>(
+                  value: 'settings',
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      SizedBox(width: 8),
+                      Text('Settings'),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(width: 8),
+                      Text('Logout'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
           bottom: TabBar(
             controller: _tabController,
             tabs: [

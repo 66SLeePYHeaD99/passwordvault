@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text("User registered successfully with biometrics!"),
         ));
 
-        Navigator.of(context).pop(); // Return to the login screen after registration
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false); // Return to the login screen after registration
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Biometric registration failed"),
