@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:password_vault_app/screens/register_screen.dart'; // Import RegisterScreen
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -92,9 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
+                Navigator.of(context).pushNamed('/register');
               },
               child: Text("Don't have an account? Register here"),
             ),
